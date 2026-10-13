@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Present Simple – Interactive Worksheets</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1d2433;--mu:#667085;--ac:#3b6cf6;--ok:#16a34a;--okb:#dcfce7;--no:#dc2626;--nob:#fee2e2;--bd:#d9deea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1b2030;--tx:#e8ebf3;--mu:#98a2b8;--ac:#7c9cff;--okb:#12341f;--nob:#3b1717;--bd:#2c3347}}
+:root[data-theme="dark"]{--bg:#12151c;--card:#1b2030;--tx:#e8ebf3;--mu:#98a2b8;--ac:#7c9cff;--okb:#12341f;--nob:#3b1717;--bd:#2c3347}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.5rem;margin:0}.sub{color:var(--mu);margin:2px 0 14px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+.tab{flex:0 0 auto;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit}
+.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-top:12px}
+.focus{color:var(--mu);margin:0 0 4px}.instr{font-weight:600;margin:0 0 10px}
+.sec{font-weight:700;margin:16px 0 6px;color:var(--ac)}
+.item{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:9px 10px;border-radius:10px;margin:4px 0;border:1px solid transparent}
+.item.ok{background:var(--okb);border-color:var(--ok)}.item.bad{background:var(--nob);border-color:var(--no)}
+.n{font-weight:700;color:var(--mu);min-width:1.6em}
+.chip{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:8px;padding:3px 10px;cursor:pointer;font:inherit}
+.chip.sel{background:var(--ac);color:#fff;border-color:var(--ac)}
+input{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:5px 9px;min-width:0;width:min(100%,15em)}
+input.w{width:100%}
+.line{width:100%;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ans{width:100%;font-size:.9rem;color:var(--ok);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+button.b{border:0;border-radius:10px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;background:var(--ac);color:#fff}
+button.b.g{background:var(--bg);color:var(--tx);border:1px solid var(--bd)}
+.score{margin-left:auto;font-weight:700}
+.total{color:var(--mu);font-size:.9rem;margin-top:8px}
+</style></head><body><main>
+<h1>Present Simple Practice</h1>
+<p class="sub">5 interactive worksheets with instant answer-key checking</p>
+<div class="tabs" id="tabs"></div>
+<div id="ws"></div>
+<div class="total" id="total"></div>
+</main>
+<script>
+const norm=s=>(s||'').toLowerCase().replace(/[’‘]/g,"'").replace(/[.?!\s]+$/,'').replace(/\s+/g,' ').replace(/\bdoes not\b/g,"doesn't").replace(/\bdo not\b/g,"don't").trim();
+const alt=k=>k.replace('Yes','No').replace(/\bdoes\b/,"doesn't").replace(/\bdo\b/,"don't");
+const ch=(pre,opts,ans,post='')=>({t:'c',pre,opts,ans,post});
+const tx=(pre,ans,post='',hint='')=>({t:'x',pre,ans:[].concat(ans),post,hint});
+const W=[
+{title:'1 · Verb',focus:'Choose the correct verb',instr:'Circle the correct answer.',items:[
+ch('Sara',['play','plays'],'plays','tennis every Friday.'),ch('They',['eat','eats'],'eat','lunch at school.'),
+ch('My brother',['watch','watches'],'watches','TV after dinner.'),ch('We',['go','goes'],'go','to school by bus.'),
+ch('Ahmed',['like','likes'],'likes','football.'),ch('She',['read','reads'],'reads','a book every night.'),
+ch('I',['drink','drinks'],'drink','milk in the morning.'),ch('The boys',['run','runs'],'run','in the playground.')]},
+{title:'2 · Complete',focus:'Complete the sentences',instr:'Write the correct form of the verb in brackets.',items:[
+tx('Ali','reads','a book every night.','(read)'),tx('We','play','in the playground.','(play)'),
+tx('She','washes','her hands before lunch.','(wash)'),tx('They','study','English at school.','(study)'),
+tx('My father','drives','to work every day.','(drive)'),tx('Mariam','brushes','her teeth every morning.','(brush)'),
+tx('I','help','my mother at home.','(help)'),tx('The cat','sleeps','on the sofa.','(sleep)')]},
+{title:'3 · Negatives',focus:'Make negative sentences',instr:"Rewrite each sentence using don't or doesn't.",items:[
+['She likes apples.',"She doesn't like apples."],['They play basketball.',"They don't play basketball."],
+['Omar watches TV every day.',"Omar doesn't watch TV every day."],['We eat breakfast at school.',"We don't eat breakfast at school."],
+['Lina walks to school.',"Lina doesn't walk to school."],['I drink coffee.',"I don't drink coffee."],
+['He plays computer games.',"He doesn't play computer games."],['We study on Friday.',"We don't study on Friday."]
+].map(([q,a])=>({t:'x',pre:q+' →',ans:[a],wide:1}))},
+{title:'4 · Questions',focus:'Ask and answer questions',instr:'Write questions using Do or Does. Then write a short answer.',items:[
+['you / like / pizza?','Do you like pizza?','Yes, I do.'],['she / play / tennis?','Does she play tennis?','Yes, she does.'],
+['they / go / to school by bus?','Do they go to school by bus?','Yes, they do.'],['he / read / books?','Does he read books?','Yes, he does.'],
+['your parents / work / every day?','Do your parents work every day?','Yes, they do.'],['your brother / like / football?','Does your brother like football?','Yes, he does.']
+].map(([p,q,a])=>({t:'q',pre:p,q,a}))},
+{title:'5 · Mixed',focus:'Mixed Present Simple Practice',instr:'',items:[
+{sec:'A. Choose the correct answer.'},
+ch('My sister',['walk','walks'],'walks','to school every day.'),ch('We',['study','studies'],'study','English on Sunday.'),
+ch('Ahmed',['play','plays'],'plays','football after school.'),ch('The dog',['run','runs'],'runs','in the garden.'),
+{sec:'B. Correct the mistakes.'},
+{t:'x',pre:'She play tennis every week. →',ans:['She plays tennis every week.'],wide:1},
+{t:'x',pre:'They goes to the park on Friday. →',ans:['They go to the park on Friday.'],wide:1},
+{t:'x',pre:"He don't like carrots. →",ans:["He doesn't like carrots."],wide:1},
+{t:'x',pre:"We doesn't watch TV in the morning. →",ans:["We don't watch TV in the morning."],wide:1},
+{sec:'C. Write your own sentences. (checked for the target word)'},
+{t:'f',pre:'Write a sentence with play:',kw:/\bplay\b/i,ans:['I play football after school.']},
+{t:'f',pre:'Write a sentence with likes:',kw:/\blikes\b/i,ans:['Sara likes apples.']},
+{t:'f',pre:"Write a sentence using doesn't:",kw:/\bdoesn'?t\b|does not/i,ans:["He doesn't like milk."]}]}
+];
+const best=W.map(()=>0);let cur=0;
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+function build(wi){
+ const w=W[wi],box=el('div','card'),rows=[];let n=0;
+ box.append(el('p','focus','Focus: '+w.focus));if(w.instr)box.append(el('p','instr',w.instr));
+ w.items.forEach(it=>{
+  if(it.sec){box.append(el('div','sec',it.sec));return}
+  n++;const row=el('div','item');row.append(el('span','n',(wi==4&&n>4&&n<9?n+4-4:n)+'.'));
+  let get,ok,show,rst,key;
+  if(it.t==='c'){
+   let v=null;const chips=it.opts.map(o=>{const b=el('button','chip',o);b.onclick=()=>{v=o;chips.forEach(c=>c.classList.toggle('sel',c===b));row.className='item'};return b});
+   row.append(el('span','',it.pre),...chips,el('span','',it.post));
+   ok=()=>v===it.ans;key='✔ '+it.ans;rst=()=>{v=null;chips.forEach(c=>c.classList.remove('sel'))};
+   show=()=>{v=it.ans;chips.forEach(c=>c.classList.toggle('sel',c.textContent===it.ans))};
+   var done=()=>v!==null;
+  }else if(it.t==='q'){
+   const l=el('span','',it.pre+' →'),q=el('input','w'),a=el('input','w');q.placeholder='Question…';a.placeholder='Short answer…';
+   row.append(l,q,a);[q,a].forEach(i=>i.oninput=()=>row.className='item');
+   ok=()=>norm(q.value)===norm(it.q)&&[it.a,alt(it.a)].map(norm).includes(norm(a.value));
+   key='✔ '+it.q+'  —  '+it.a;rst=()=>{q.value=a.value=''};show=()=>{q.value=it.q;a.value=it.a};done=()=>q.value.trim()||a.value.trim();
+  }else{
+   row.append(el('span','',it.pre));const i=el('input',it.wide||it.t==='f'?'w':'');i.autocapitalize='off';i.autocomplete='off';
+   if(it.hint)row.append(i,el('span','',it.hint+' '+it.post));else{row.append(i);if(it.post)row.append(el('span','',it.post))}
+   i.oninput=()=>row.className='item';
+   ok=it.t==='f'?()=>it.kw.test(i.value)&&i.value.trim().split(/\s+/).length>=3:()=>it.ans.map(norm).includes(norm(i.value));
+   key=(it.t==='f'?'Example: ':'✔ ')+it.ans[0];rst=()=>{i.value=''};show=()=>{i.value=it.ans[0]};done=()=>i.value.trim();
+  }
+  const an=el('div','ans',key);an.hidden=true;row.append(an);
+  rows.push({row,ok,an,rst,show,done});box.append(row);
+ });
+ const bar=el('div','bar'),sc=el('span','score');
+ const cb=el('button','b','Check answers'),sb=el('button','b g','Show answers'),rb=el('button','b g','Try again');
+ cb.onclick=()=>{let s=0;rows.forEach(r=>{const g=r.ok();if(g)s++;r.row.className='item '+(g?'ok':'bad');r.an.hidden=g});
+  sc.textContent='Score: '+s+' / '+rows.length+(s===rows.length?' 🎉':'');best[wi]=Math.max(best[wi],s);tot()};
+ sb.onclick=()=>rows.forEach(r=>{r.show();r.row.className='item ok';r.an.hidden=false});
+ rb.onclick=()=>{rows.forEach(r=>{r.rst();r.row.className='item';r.an.hidden=true});sc.textContent=''};
+ bar.append(cb,sb,rb,sc);box.append(bar);return box;
+}
+const cache={};
+function tot(){const max=W.map(w=>w.items.filter(i=>!i.sec).length);document.getElementById('total').textContent='Best scores: '+best.map((b,i)=>`W${i+1} ${b}/${max[i]}`).join(' · ')}
+function go(i){cur=i;[...document.getElementById('tabs').children].forEach((t,j)=>t.classList.toggle('on',j===i));
+ const h=document.getElementById('ws');h.replaceChildren(cache[i]||(cache[i]=build(i)))}
+W.forEach((w,i)=>{const b=el('button','tab','Worksheet '+w.title);b.onclick=()=>go(i);document.getElementById('tabs').append(b)});
+tot();go(0);
+</script></body></html>
